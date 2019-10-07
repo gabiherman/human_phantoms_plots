@@ -55,7 +55,7 @@ grid_arrange_shared_legend <- function(...) {
 Read in the functional data: 
 ```{r}
 func<- read.csv('/projects/gherman/SPINS_human_phantoms/group_bold.tsv', sep='\t') %>%
-  mutate(subj = substr(bids_name,1, 6), year = substr(bids_name, 8, 13), site=substr(bids_name, 14, 16))
+  mutate(subj = substr(bids_name,1, 6), year = substr(bids_name, 8, 13), site=substr(bids_name, 14, 16), parent_site=substr(bids_name,14,15)) %>% mutate(scanner_type= ifelse(substr(bids_name,16,16)=="P", "prisma","GE" ))
 ```
 
 
