@@ -1,6 +1,8 @@
 ---
 title: "R Notebook"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
@@ -26,7 +28,7 @@ Some plotting functions
 ```{r}
 plot_mriqc_metric <- function(mriqc,metric){
   
-  return (ggplot(data=mriqc, mapping = aes_string(x="subj", y=metric)) + geom_jitter(width=0.1, aes( fill=site, shape=site))+theme_classic(base_size=6)+theme(panel.background = element_rect(fill="white", colour="white"),axis.title.x=element_blank()) +scale_shape_manual(values=shapez)+scale_fill_manual(values=fillz) +guides(fill=guide_legend("title"), shape=guide_legend("title")))
+  return (ggplot(data=mriqc, mapping = aes_string(x="subj", y=metric)) + geom_boxplot(outlier.shape=NA, width=0.75, colour="gray82") + geom_jitter(width=0.3, aes( fill=site, shape=site), size=0.7)+theme_classic(base_size=6)+theme(panel.background = element_rect(fill="white", colour="white"),axis.title.x=element_blank()) +scale_shape_manual(values=shapez)+scale_fill_manual(values=fillz) +guides(fill=guide_legend("title"), shape=guide_legend("title")))
 
 }
 
@@ -55,7 +57,7 @@ grid_arrange_shared_legend <- function(...) {
 Read in the functional data: 
 ```{r}
 func<- read.csv('/projects/gherman/SPINS_human_phantoms/group_bold.tsv', sep='\t') %>%
-  mutate(subj = substr(bids_name,1, 6), year = substr(bids_name, 8, 13), site=substr(bids_name, 14, 16), parent_site=substr(bids_name,14,15)) %>% mutate(scanner_type= ifelse(substr(bids_name,16,16)=="P", "prisma","GE"))
+  mutate(subj = substr(bids_name,1, 6), year = substr(bids_name, 8, 13), site=substr(bids_name, 14, 16), parent_site=substr(bids_name,14,15)) %>% mutate(scanner_type= ifelse(substr(bids_name,16,16)=="P", "prisma","GE")) %>% filter(subj!="sub-05")
 ```
 
 
@@ -70,7 +72,7 @@ fillz=c(NA, "black",NA,"black",NA,"black")
 names(fillz)= c("CMH", "CMP", "MRC" ,"MRP", "ZHH" ,"ZHP")
 
 
-ggplot(data=mriqc, mapping = aes_string(x="subj", y=metric)) + geom_jitter(width=0.1, aes( fill=scanner_type, shape=parent_site))+theme_classic(base_size=6)+theme(panel.background = element_rect(fill="white", colour="white"),axis.title.x=element_blank()) +scale_shape_manual(values=c(21,23,24))+scale_fill_manual(values=c(NA,"black")) +guides(fill=guide_legend("title"), shape=guide_legend("title"))
+ggplot(data=mriqc, mapping = aes_string(x="subj", y=metric)) + geom_boxplot(outlier.shape=NA, width=0.8)+ geom_jitter(width=0.1, aes( fill=scanner_type, shape=parent_site))+theme_classic(base_size=6)+theme(panel.background = element_rect(fill="white", colour="white"),axis.title.x=element_blank()) +scale_shape_manual(values=c(21,23,24))+scale_fill_manual(values=c(NA,"black")) +guides(fill=guide_legend("title"), shape=guide_legend("title")) 
 
 
 ```
