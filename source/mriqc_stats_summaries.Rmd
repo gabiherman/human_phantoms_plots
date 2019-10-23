@@ -1,8 +1,7 @@
 ---
 title: "R Notebook"
-output:
-  pdf_document: default
-  html_notebook: default
+output: html_document
+always_allow_html: yes
 ---
 
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
@@ -18,8 +17,8 @@ The preview shows you a rendered HTML copy of the contents of the editor. Conseq
 
 ```{r}
 library(tidyverse)
-library(gridExtra)
 library(grid)
+library(gridExtra)
 ```
 
 
@@ -83,7 +82,9 @@ ggplot(data=mriqc, mapping = aes_string(x="subj", y=metric)) + geom_boxplot(outl
 mriqc=func
 metric="tsnr"
 
-shapez=c(21,23,24,21,23,24)
+#shapez=c(21,23,24,21,23,24)
+shapez=c("\u2606","\u2606","\u2198","\u25BC","\u2606","\u2198") #cool so this works but not when the types are mixed
+#OKAY so im gonna use unicode yay
 names(shapez)=c("CMH","MRP","ZHH","CMP","MRC","ZHP")
 
 
@@ -92,7 +93,7 @@ fillz=c(NA,"black",NA,"black",NA,"black")
 names(fillz)=c("CMH","MRP","ZHH","CMP","MRC","ZHP")
 
 
-ggplot(data=mriqc, mapping = aes_string(x="subj", y=metric)) + geom_jitter(width=0.1, aes( fill=site, shape=site))+theme_classic(base_size=6)+theme(panel.background = element_rect(fill="white", colour="white"),axis.title.x=element_blank()) +scale_shape_manual(values=shapez)+scale_fill_manual(values=fillz) +guides(fill=guide_legend("title"), shape=guide_legend("title"))
+ggplot(data=mriqc, mapping = aes_string(x="subj", y=metric)) + geom_jitter(width=0.1, size=6, aes( fill=site, shape=site))+theme_classic(base_size=12)+theme(panel.background = element_rect(fill="white", colour="white"),axis.title.x=element_blank()) +scale_shape_manual(values=shapez)+scale_fill_manual(values=fillz) +guides(fill=guide_legend("title"), shape=guide_legend("title"))
 
 
 ```
@@ -119,9 +120,14 @@ aor <- plot_mriqc_metric(func, "aor")
 
 plt <- grid_arrange_shared_legend(tsnr, snr, fd_mean, fd_perc, efc, aor)
 
+
 ```
 
 
+```{r}
+ggsave(file="plotahijsfads.pdf",plt, width =7, height=5)
+
+```
 
 
 
