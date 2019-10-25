@@ -1,0 +1,28 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+
+```{r}
+dti <- read.csv("/projects/gherman/SPINS_human_phantoms/eddy_metrics.csv") %>% mutate(year=substr(session_label, 0, 6), site=substr(session_label, 7, 9), record_id=subject_id, parent_site=substr(session_label, 7, 8))%>% mutate(scanner_type= ifelse(substr(site,3,3)=="P", "prisma","GE"))
+```
+
+year (ses-Y1, site, parent_site, scanner_type)
+
+
+  mutate(subj = substr(bids_name,1, 6), year = substr(bids_name, 8, 13), site=substr(bids_name, 14, 16), parent_site=substr(bids_name,14,15)) %>% mutate(scanner_type= ifelse(substr(bids_name,16,16)=="P", "prisma","GE")) %>% filter(subj!="sub-05")
