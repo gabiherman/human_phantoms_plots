@@ -134,7 +134,7 @@ ggsave(file="plotahijsfads.jpg",plt, width =7, height=5)
 Read in the T1 data: 
 ```{r}
 T1 <- read.csv('/projects/gherman/SPINS_human_phantoms/group_T1w.tsv', sep='\t') %>%
-  mutate(subj = substr(bids_name,1, 6), year = substr(bids_name, 8, 13), site=substr(bids_name, 14, 16))
+  mutate(subj = substr(bids_name,1, 6), year = substr(bids_name, 8, 13), site=substr(bids_name, 14, 16))%>% filter(subj!="sub-05")
 ```
 
 
@@ -153,14 +153,14 @@ cjv <- plot_mriqc_metric(T1, "cjv")
 
 efc <- plot_mriqc_metric(T1, "efc")
 
-grid_arrange_shared_legend(cnr, snr_total,snrd_total, fwhm_avg, cjv, efc)
+grid_arrange_shared_legend(cnr, snr_total)
 ```
 
 
 Read in the T2 data: 
 ```{r}
 T2 <- read.csv('/projects/gherman/SPINS_human_phantoms/group_T2w.tsv', sep='\t') %>%
-  mutate(subj = substr(bids_name,1, 6), year = substr(bids_name, 8, 13), site=substr(bids_name, 14, 16))
+  mutate(subj = substr(bids_name,1, 6), year = substr(bids_name, 8, 13), site=substr(bids_name, 14, 16))%>% filter(subj!="sub-05")
 ```
 
 
@@ -179,8 +179,10 @@ cjv <- plot_mriqc_metric(T2, "cjv")
 
 efc <- plot_mriqc_metric(T2, "efc")
 
-grid_arrange_shared_legend(cnr, snr_total,snrd_total, fwhm_avg, cjv, efc)
+grid_arrange_shared_legend(cnr, snr_total)
 
+
+#So whether to use dietrich's SNR vs just SNR
 ```
 
 
