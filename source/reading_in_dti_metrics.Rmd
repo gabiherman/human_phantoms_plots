@@ -42,11 +42,29 @@ fillz=c(NA,"black",NA,"black",NA,"black")
 names(fillz)=c("CMH","MRP","ZHH","CMP","MRC","ZHP")
 
 
-
-
-plot_mriqc_metric <- function(mriqc,metric){
+plot_mriqc_metric <- function(mriqc,metric,title){
   
-  return (ggplot(data=mriqc, mapping = aes_string(x="subj", y=metric)) + geom_boxplot(outlier.shape=NA, width=0.75, colour="gray82") + geom_jitter(width=0.3, aes( fill=site, shape=site), size=2)+theme_classic(base_size=10)+theme(panel.background = element_rect(fill="white", colour="white"),axis.title.x=element_blank()) +scale_shape_manual(values=shapez)+scale_fill_manual(values=fillz) +guides(fill=guide_legend("title"), shape=guide_legend("title")))
+ plot <- ggplot(data=mriqc, mapping = aes_string(x="subj", y=metric)) + geom_boxplot(outlier.shape=NA, width=0.75, colour="gray82") + geom_jitter(width=0.3, aes( fill=site, shape=site), size=2)+theme_classic(base_size=10)+theme(panel.background = element_rect(fill="white", colour="white"),axis.title.x=element_blank(),axis.title.y = element_text())+labs(y=title) +scale_shape_manual(values=shapez)+scale_fill_manual(values=fillz) +guides(fill=guide_legend("title"), shape=guide_legend("title"))
+  
+  return(plot)
+
+}
+
+
+grid_arrange_shared_legend <- function(...) {
+    plots <- list(...)
+    g <- ggplotGrob(plots[[1]] + theme(legend.position="bottom"))$grobs
+    legend <- g[[which(sapply(g, function(x) x$name) == "guide-box")]]
+    lheight <- sum(legend$height)
+    
+  grid.arrange(arrangeGrob(grobs=lapply(plots, function(x)
+      x + theme(legend.position="none",aspect.ratio=0.6))),
+    legend,
+    ncol = 1,
+    heights = unit.c(unit(1, "npc") - lheight, lheight),
+    widths = unit(0.5, "npc")
+    
+    )
 
 }
 ```
@@ -54,5 +72,27 @@ plot_mriqc_metric <- function(mriqc,metric){
 
 ```{r}
 plot_mriqc_metric(dti, "avg_snr_0")
+```
+
+```{r}
+
+
+fd_mean <- plot_mriqc_metric(dti,"qc_mot_rel","Mean FD (mm)")
+
+snr <- plot_mriqc_metric(dti, "avg_snr_0","SNR")
+
+cnr <- plot_mriqc_metric(dti,"avg_cnr_1000","CNR")
+
+#cnr <- plot_mriqc_metric(func, "cnr")
+
+#gsr <- plot_mriqc_metric("gsr")
+
+#efc <- plot_mriqc_metric(func, "efc")
+
+#aor <- plot_mriqc_metric(func, "aor")
+
+
+plt <- grid_arrange_shared_legend(snr, cnr, fd_mean)
+
 ```
 
