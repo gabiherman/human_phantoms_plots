@@ -92,7 +92,9 @@ cnr <- plot_mriqc_metric(dti,"avg_cnr_1000","CNR")
 #aor <- plot_mriqc_metric(func, "aor")
 
 
-plt <- grid_arrange_shared_legend(snr, cnr, fd_mean)
+plt <- grid_arrange_shared_legend(cnr, snr, fd_mean)
+
+ggsave(file="../out/dwi_plots.tiff",plt, width =7, height=5) #might have to fix it in illustrator after or something...
 
 ```
 
