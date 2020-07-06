@@ -63,9 +63,9 @@ func<- read.csv('/projects/gherman/SPINS_human_phantoms/group_bold.tsv', sep='\t
 
 Write func to a csv for colin
 ```{r}
-func_output <- func %>% select(bids_name, scanner=site, parent_site, scanner_type, subj, year,  tsnr, snr, fd_mean, fd_perc)
+func_output <- func %>% select(bids_name, scanner=site, parent_site, scanner_type, subj, year,  tsnr, snr, dvars_nstd, fd_mean, fd_perc)
 
-write.csv(func_output, "../out/func_summary.csv")
+write.csv(func_output, "../out/func_summary_july.csv")
 ```
 
 
@@ -114,7 +114,7 @@ Plot some fmri metrics
 
 tsnr <- plot_mriqc_metric(func,"tsnr","tSNR")
 
-snr <- plot_mriqc_metric(func, "snr","SNR")
+dvars <- plot_mriqc_metric(func, "dvars_nstd","DVARS")
 
 fd_mean <- plot_mriqc_metric(func,"fd_mean","Mean FD (mm)")
 
@@ -127,9 +127,9 @@ fd_mean <- plot_mriqc_metric(func,"fd_mean","Mean FD (mm)")
 #aor <- plot_mriqc_metric(func, "aor")
 
 
-plt <- grid_arrange_shared_legend(tsnr, snr, fd_mean)
+plt <- grid_arrange_shared_legend(dvars, tsnr, fd_mean)
 
-ggsave(file="../out/fmri_plots.tiff",plt, width =7, height=5)
+ggsave(file="../out/fmri_plots_july.tiff",plt, width =7, height=5)
 
 plt
 
@@ -137,7 +137,7 @@ plt
 
 
 ```{r}
-ggsave(file="plotahijsfads.tiff",plt, width =7, height=5)
+ggsave(file="plotahijsfads_july.tiff",plt, width =7, height=5)
 
 ```
 
@@ -153,7 +153,7 @@ T1 <- read.csv('/projects/gherman/SPINS_human_phantoms/group_T1w.tsv', sep='\t')
 ```{r}
 t1_output <- T1 %>% select(bids_name, scanner=site, parent_site, scanner_type, subj, year,  cnr, snr_csf,	snr_gm,	snr_total,	snr_wm,	snrd_csf,	snrd_gm,	snrd_total,	snrd_wm)
 
-write.csv(t1_output, "../out/T1w_summary.csv")
+write.csv(t1_output, "../out/T1w_summary_july.csv")
 
 ```
 
@@ -173,9 +173,9 @@ snrd_total <- plot_mriqc_metric(T1, "snrd_total", "SNRD(remove)")
 
 #efc <- plot_mriqc_metric(T1, "efc")
 
-plt <- grid_arrange_shared_legend(snrd_total,cnr, snr_total)
+plt <- grid_arrange_shared_legend(snrd_total,snr_total, cnr)
 
-ggsave(file="../out/t1_plots.tiff",plt, width =7, height=5) #might have to fix it in illustrator after or something...
+ggsave(file="../out/t1_plots_july.tiff",plt, width =7, height=5) #might have to fix it in illustrator after or something...
 
 plt
 ```
@@ -183,15 +183,15 @@ plt
 
 Read in the T2 data: 
 ```{r}
-T2 <- read.csv('/projects/gherman/SPINS_human_phantoms/group_T2w.tsv', sep='\t')%>%
-  mutate(subj = substr(bids_name,1, 6), year = substr(bids_name, 8, 13), site=substr(bids_name, 14, 16), parent_site=substr(bids_name,14,15))%>% mutate(scanner_type= ifelse(substr(bids_name,16,16)=="P", "prisma","GE")) %>% filter(subj!="sub-05")
+#T2 <- read.csv('/projects/gherman/SPINS_human_phantoms/group_T2w.tsv', sep='\t')%>%
+#  mutate(subj = substr(bids_name,1, 6), year = substr(bids_name, 8, 13), site=substr(bids_name, 14, 16), parent_site=substr(bids_name,14,15))%>% mutate(scanner_type= ifelse(substr(bids_name,16,16)=="P", "prisma","GE")) %>% filter(subj!="sub-05")
 ```
 
 
 ```{r}
-t2_output <- T2 %>% select(bids_name, scanner=site, parent_site, scanner_type, subj, year,  cnr, snr_csf,	snr_gm,	snr_total,	snr_wm,	snrd_csf,	snrd_gm,	snrd_total,	snrd_wm)
+t#2_output <- T2 %>% select(bids_name, scanner=site, parent_site, scanner_type, subj, year,  cnr, snr_csf,	snr_gm,	snr_total,	snr_wm,	snrd_csf,	snrd_gm,	snrd_total,	snrd_wm)
 
-write.csv(t2_output, "../out/T2w_summary.csv")
+#write.csv(t2_output, "../out/T2w_summary_july.csv")
 ```
 
 
