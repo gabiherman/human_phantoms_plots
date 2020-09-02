@@ -1,1 +1,1 @@
-Plotting QA metrics for the SPINS Human Phantoms dataset. See source for R notebooks that control plotting or reports for an overview of the process.
+Plotting QA metrics for the SPINS Human Phantoms dataset (insert link here). See source for R notebooks that control plotting or reports for an overview of the process.
