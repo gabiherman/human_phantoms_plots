@@ -1,1 +1,1 @@
-spins human phantoms stuff that gabi is working on
+Plotting QA metrics for the SPINS Human Phantoms dataset. See source for R notebooks that control plotting or reports for an overview of the process.
